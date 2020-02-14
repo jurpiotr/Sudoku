@@ -1,10 +1,36 @@
-$bg: #05be05;
-
+$bg: #435a2e;
+$size-board: 500px;
+$border-board: 3px;
+$border-cell: 2px;
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
 body {
    background-color: $bg;
 }
+.board {
+   display: grid;
+   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+   background-color: #053325;
+   margin: 10px;
+   width: $size-board;
+   height: $size-board;
+   border: $border-board solid #000;
+}
+.board div {
+   border: $border-cell solid black;
+   font-size: 30px;
+   font-family: Arial;
+   text-align: center;
+}
 
-div {
-   width: 200px;
-   height: 250px;
+.area {
+   display: grid;
+   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+   background-color: #a5f512;
+}
+.area div {
+   line-height: (($size-board - ($border-board * 6) - ($border-cell * 18)) / 9);
 }
