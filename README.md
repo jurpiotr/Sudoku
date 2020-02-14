@@ -9,7 +9,7 @@ npm i
 # Usage
 * Production version:
 ```
-npm run prod
+npm run prod - production version
 ```
 * Development version:
 ```
