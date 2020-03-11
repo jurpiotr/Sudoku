@@ -1,17 +1,17 @@
-import { peers, permutation } from './position';
+import { peers, permutation } from './positions';
 import solvedSudoku from './board.json';
 
-const findRandomPlace = () => {
+ 
+   const findRandomPlace = () => {
    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
    const place =
       letters[Math.floor(Math.random() * 9)] +
       Math.floor(Math.random() * 9 + 1);
    return place;
-};
+   };
 
-const foundedFieldToEliminate = () => {
+const foundedFieldsToEliminate = () => {
    let activeStateOfBoard = { ...solvedSudoku };
-   let correctBoard = { ...activeStateOfBoard };
    let emptyToRemove = 0;
 
    let countEmptyCells = () => {
@@ -63,23 +63,19 @@ const foundedFieldToEliminate = () => {
       }
    };
 
-   const newBoard = permutation(solvedSudoku, 3);
+   const newBoard = permutation(solvedSudoku, 1);
    activeStateOfBoard = { ...newBoard };
-   // for (let i = 0; countEmptyCells() < 40; i++) {
-   //    let doom = findRandomPlace();
-   //    let oldDoomValue = activeStateOfBoard[doom];
+   for (let i = 0; countEmptyCells() < 40; i++) {
+      let doom = findRandomPlace();
+      let oldDoomValue = activeStateOfBoard[doom];
 
-   //    deleteCell(doom);
+      deleteCell(doom);
 
-   //    isSolvable()
-   //       ? deleteCell(doom)
-   //       : (activeStateOfBoard[doom] = oldDoomValue);
-   // }
-
+      isSolvable()
+         ? deleteCell(doom)
+         : (activeStateOfBoard[doom] = oldDoomValue);
+   }
    return activeStateOfBoard;
 };
 
-  
-
-
-export default foundedFieldToEliminate;
+export default foundedFieldsToEliminate;
