@@ -1,12 +1,15 @@
-import foundedFieldsToEliminate from './eliminator';
-
-const f = foundedFieldsToEliminate();
-const initFillBoard = () => {
+const initFillBoard = (getFoundedBoard) => {
   const tabCells = document.querySelectorAll('.area div');
-  tabCells.forEach((t) => {
-    const idContent = t.id;
-    t.textContent = f[idContent] ? f[idContent] : '';
+  tabCells.forEach((cell) => {
+    const cellId = cell.id;
+    if(getFoundedBoard[cellId] !== 0){
+      cell.textContent = getFoundedBoard[cellId];
+      cell.setAttribute('class', 'blocked-cell');
+    } else {
+      cell.setAttribute('class', 'empty-cell');
+    }
+    
   });
-   return f;
+   return getFoundedBoard;
 };
 export default initFillBoard;

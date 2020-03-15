@@ -1,4 +1,5 @@
 $bg: #3a43cc;
+$bg-board: #a5f512;
 $size-board: 500px;
 $border-board: 3px;
 $border-cell: 2px;
@@ -10,7 +11,7 @@ $border-cell: 2px;
 body {
    background-color: $bg;
 }
-.board {
+#board {
    display: grid;
    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
    background-color: #053325;
@@ -18,8 +19,12 @@ body {
    width: $size-board;
    height: $size-board;
    border: $border-board solid #000;
+   -webkit-user-select: none; /* Chrome all / Safari all */
+   -moz-user-select: none; /* Firefox all */
+   -ms-user-select: none; /* IE 10+ */
+   user-select: none; /* Likely future */
 }
-.board div {
+#board div {
    border: $border-cell solid black;
    font-size: 30px;
    font-family: Arial;
@@ -29,8 +34,38 @@ body {
 .area {
    display: grid;
    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-   background-color: #a5f512;
+
+   background-color: $bg-board;
+   transition: 1s ease;
 }
 .area div {
    line-height: (($size-board - ($border-board * 6) - ($border-cell * 18)) / 9);
+}
+
+.focused-cell {
+   background: green;
+}
+
+.blocked-cell{
+   color: #02008a;
+}
+.empty-cell{
+   color: #000000;
+   font-weight: 700;
+}
+.repeated {
+   animation-name: anim-repeated;
+   animation-duration: 2s;
+}
+
+@keyframes anim-repeated {
+   from {
+      background-color: $bg-board;
+   }
+   50% {
+      background-color: #ff0000;
+   }
+   to {
+      background-color: v;
+   }
 }

@@ -78,4 +78,4 @@ const foundedFieldsToEliminate = () => {
    return activeStateOfBoard;
 };
 
-export default foundedFieldsToEliminate;
+export default foundedFieldsToEliminate();
