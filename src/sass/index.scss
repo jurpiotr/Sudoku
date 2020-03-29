@@ -1,61 +1,160 @@
+@import './header';
 $bg: #3a43cc;
-$bg-board: #a5f512;
-$size-board: 500px;
-$border-board: 3px;
-$border-cell: 2px;
+//$bg-window: white;
+$bg-window: #18124d;
+$bg-board: #ffffffcc;
+$bg-focus: #d0ff93;
+$bg-menu-btn: #91ff00;
+$bg-menu-tile: #ffae00;
+$c-border-board: #32006e;
+$lighten-shadow: #8964ec;
+$darken-shadow: #000001;
+$c-wrong: #ff0000;
+$height-header: 6vw;
+$size-board: 80;
+$size-menu: 50;
+$border-board: 0.3vh;
+$border-cell: 0.2vh;
+$m-board: 3vmin;
+
+@function alpha($percent){
+   $letters: (a: 10, b: 11, c: 12, d: 13, e: 14, f: 15);
+   $per255: round($percent * 2.55);
+   $digit1: floor($per255 / 16);
+   $digit2: $per255 % 16;
+   @if($percent > 100){
+      $per255: 100;  
+   } 
+  @each $name, $glyph in $letters {
+     @if($digit1 == $glyph){
+        $digit1: $name;
+     }
+     @if($digit2 == $glyph){
+      $digit2: $name;
+     }
+   }
+  @return #{$digit1}#{$digit2};
+}
+@mixin area9{
+   display: grid;
+   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+}
+@mixin menu($bg-menu){
+   padding: 2vmin;
+   border-radius: .3rem;
+   box-shadow: 0 0 1rem $darken-shadow, 
+      inset 0 0 .3rem $lighten-shadow;
+   color: transparent;
+   background-color: $bg-board;
+   -webkit-background-clip: text;
+   -moz-background-clip: text;
+   background-clip: text;
+   text-shadow: .1vmin .1vmin .1vmin $darken-shadow#{alpha(41)};
+   transform: perspective(10rem) translateZ(0);
+   transition: .3s ease;
+   cursor: pointer;
+   &:hover {
+      transform: perspective(10rem) translateZ(.1rem);
+      transition: .4s ease;
+      background-color: $bg-menu;
+      box-shadow: 0 0 .3em $bg-board,
+      inset 0 0 .2rem $bg-menu;
+   }
+}
 * {
    box-sizing: border-box;
    margin: 0;
    padding: 0;
 }
 body {
-   background-color: $bg;
-}
-#board {
-   display: grid;
-   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-   background-color: #053325;
-   margin: 10px;
-   width: $size-board;
-   height: $size-board;
-   border: $border-board solid #000;
+   background: $darken-shadow;
+   min-height: alpha(185);
    -webkit-user-select: none; /* Chrome all / Safari all */
    -moz-user-select: none; /* Firefox all */
    -ms-user-select: none; /* IE 10+ */
    user-select: none; /* Likely future */
 }
-#board div {
-   border: $border-cell solid black;
-   font-size: 30px;
-   font-family: Arial;
-   text-align: center;
+.header, .footer{
+   height: 10vh;
+   width: 100vw;
+   background: $bg-window - 60;
+   box-shadow: inset 0 6vmin 12vmin $bg-window;
+}
+.header{
+   display: flex;
+   justify-content: start;
+   align-items: center;
+   box-shadow: inset 0 6vmin 12vmin $bg-window;
+}
+.header__logo {
+   background: $lighten-shadow;
+   margin: 1vh;
+   padding:0.5vh;
+   width: 8vh;
+}
+.header__title{
+   color: $bg-board;
+   font-size: 6vh;
 }
 
-.area {
-   display: grid;
-   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+.footer{
+   box-shadow: inset 0 -6vmin 12vmin $bg-window;
+}
 
-   background-color: $bg-board;
+.window {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   width: auto;
+   height: 100vh;
+   margin: 0 0;
+   background: $bg-window;
+   box-shadow: inset 0 0 8vmin $bg-window - 60;
+}
+
+.board {
+   @include area9;
+   width: $size-board + vmin;
+   height: $size-board + vmin;
+   margin: 3vmin $m-board;
+   background-color: #130047;
+   border: $border-board solid $darken-shadow;
+}
+.board div {
+   border: $border-cell solid $c-border-board;
+   font-size: 4vmin;
+}
+.board__area {
+   @include area9;
    transition: 1s ease;
 }
-.area div {
-   line-height: (($size-board - ($border-board * 6) - ($border-cell * 18)) / 9);
-}
 
-.focused-cell {
-   background: green;
-}
+// Direct cell in area:
+.board__cell {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: $bg-board;
+   border-radius: 2px;
+   box-shadow: inset 0 0 2px;
+   font-family: Arial;
 
-.blocked-cell{
-   color: #02008a;
-}
-.empty-cell{
-   color: #000000;
-   font-weight: 700;
-}
-.repeated {
-   animation-name: anim-repeated;
-   animation-duration: 2s;
+   &--focused {
+      background: $bg-focus#{alpha(80)};
+      box-shadow: inset 0 0 4px $darken-shadow;
+   }
+   &--blocked {
+      color: #02008a;
+   }
+   &--empty {
+      color: $darken-shadow;
+      font-weight: 500;
+      cursor: pointer;
+   }
+   &--repeated {
+      animation-name: anim-repeated;
+      animation-duration: 2s;
+   }
 }
 
 @keyframes anim-repeated {
@@ -63,9 +162,105 @@ body {
       background-color: $bg-board;
    }
    50% {
-      background-color: #ff0000;
+      background-color: $c-wrong;
    }
    to {
-      background-color: v;
+      background-color: $bg-board;
    }
+}
+
+.menu {
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   width: $size-menu + vmin;
+   height: $size-board + vmin;
+   margin: 3vmin 0;
+   text-align: center;
+   font-family: Arial, Helvetica, sans-serif;
+   font-size: 4vmin;
+   font-weight: 700;
+}
+.menu__buttons {
+   flex-wrap: wrap;
+   width: 100%;
+}
+.menu__tool {
+   @include menu($bg-menu-btn#{alpha(80)});
+   margin: 1vmin 2vmin 2vmin;
+}
+.menu__title-tiles {
+   margin-top: 2vmin;
+   font-size: 4vmin;
+   opacity: 0.8;
+   color: $bg-menu-tile;
+   text-shadow: 0 0 .3vmin $bg-menu-tile;
+}
+.menu__tiles {
+   @include area9;
+   padding: 2vmin 2vmin;
+   font-size: 5vmin;
+   width: 40vmin;
+   height: 40vmin;
+}
+
+.menu__tile {
+   @include menu($bg-menu-tile);
+   border-radius: 0.5vmin;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: $bg-menu-tile#{alpha(66)};
+   opacity: 0.8;
+   &:hover {
+      opacity: 1;
+   }
+}
+
+@media all and (max-aspect-ratio: 138/100){
+   .window{ 
+      height: auto;
+   }
+   .board {
+      min-width: 48vh;
+      min-height: 48vh;
+      width: 62vmin;
+      height: 62vmin;
+      margin: 0.1vmin 0.2vmin;
+      background-color: #130047;
+      border: $border-board solid $darken-shadow;
+   }
+   .menu {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+      height: auto;
+      margin: 0.2vmin;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 4vmin;
+      font-weight: 700;
+   }
+   .menu__buttons {
+      width: 45%;
+      margin: 0 auto;
+   }
+   .menu__tool {
+      margin: .1vmin .2vmin .2vmin;
+   }
+   .menu__title-tiles {
+      width: 50%;
+      margin: 0 auto;
+      font-size: 2.5vmin;
+   }
+   .menu__tiles {
+      padding: 0;
+      width: auto;
+      height: auto;
+   }
+   .menu__tile {
+   padding: 1vmin;
+}
 }

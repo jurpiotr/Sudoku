@@ -1,12 +1,12 @@
 const initFillBoard = (getFoundedBoard) => {
-  const tabCells = document.querySelectorAll('.area div');
+  const tabCells = document.querySelectorAll('.board__cell');
   tabCells.forEach((cell) => {
     const cellId = cell.id;
     if(getFoundedBoard[cellId] !== 0){
       cell.textContent = getFoundedBoard[cellId];
-      cell.setAttribute('class', 'blocked-cell');
+      cell.classList.add('board__cell--blocked');
     } else {
-      cell.setAttribute('class', 'empty-cell');
+      cell.classList.add('board__cell--empty');
     }
     
   });

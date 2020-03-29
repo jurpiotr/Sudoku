@@ -2,24 +2,24 @@ import { peers } from './positions';
 
 const clickable = boardSudoku => {
    let activeBoardSudoku = { ...boardSudoku };
-   const boardHtml = document.getElementById('board');
+   const boardHtml = document.querySelector('.board');
 
    boardHtml.addEventListener('mousedown', event => {
-      const oldFocused = boardHtml.querySelector('.focused-cell');
+      const oldFocused = boardHtml.querySelector('.board__cell--focused');
 
       if (oldFocused !== null) {
-         oldFocused.classList.remove('class', 'focused-cell');
+         oldFocused.classList.remove('class', 'board__cell--focused');
       }
 
       if (
-         event.target.className !== 'area' &&
-         event.target.className !== 'blocked-cell'
+         event.target.className !== 'board__area' &&
+         event.target.classList.contains('board__cell--empty')
       ) {
-         event.target.classList.add('focused-cell');
+         event.target.classList.add('board__cell--focused');
       }
    });
    document.addEventListener('keydown', e => {
-      const focused = boardHtml.querySelector('.focused-cell');
+      const focused = boardHtml.querySelector('.board__cell--focused');
       const pressed = Number(e.key);
       let regKey = /[1-9]/;
       if (e.keyCode === 8) {
@@ -34,9 +34,9 @@ const clickable = boardSudoku => {
             if (pressed === activeBoardSudoku[peer]) {
                isUnique = false;
                const repeated = boardHtml.querySelector(`#${peer}`);
-               repeated.classList.add('repeated');
+               repeated.classList.add('board__cell--repeated');
                setTimeout(function() {
-                  repeated.classList.remove('repeated');
+                  repeated.classList.remove('board__cell--repeated');
                }, 2000);
             }
          });
