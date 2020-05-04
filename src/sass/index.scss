@@ -112,7 +112,13 @@ body {
    background: $bg-window;
    box-shadow: inset 0 0 8vmin $bg-window - 60;
 }
-
+.timer{
+   position: absolute;
+   top: 10.5vh;
+   margin: 0 auto;
+   transform: translateX(50%);
+   color: $bg-board;
+}
 .board {
    @include area9;
    width: $size-board + vmin;
@@ -272,6 +278,27 @@ body {
       height: auto;
    }
    .menu__tile {
-   padding: 1vmin;
+      padding: 1vmin;
+   }
+   .timer {
+      top: 7.5vh;
+      right: 80px;
+   }
 }
+
+.bg-scores{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   position: absolute;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 206, 17, 0.6);
+}
+.final-scores{
+   width: 70%;
+   height: 70%;
+   background-color: rgba(0, 124, 10, 0.9);
+   box-shadow: 0 0 16px 20px rgba(0, 124, 10, 0.9);
 }

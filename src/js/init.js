@@ -2,11 +2,13 @@ import config from './config';
 import solvedSudoku from './board.json';
 import { Board } from './Board';
 import { generateNewBoard, editContextField, setKey, setTile } from './draw-and-fill';
+import Timeline from './timer';
 
 export const init = () => {
     const board = new Board(solvedSudoku);
     const menuButtons = document.querySelector('.menu__buttons');
-
+    const timerHtml = document.querySelector('.timer');
+    const timeline = new Timeline(timerHtml);
     menuButtons.addEventListener('click', event => {
         if (event.target.id === 'generate') {
             board.permutation(board.solvedSudoku, 10);
@@ -14,6 +16,7 @@ export const init = () => {
             const newBoard = board.eliminate(board.solvedSudoku, 40);
             config.stateWithEmpty = newBoard;
             generateNewBoard(newBoard);
+            timeline.start();
             config.stateCurrent = { ...config.stateWithEmpty };
         }
         if (event.target.id === 'repeat') {

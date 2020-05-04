@@ -77,6 +77,9 @@ export const setKey = (boardHtml, event) => {
             }
             focused.innerText = pressed;
             config.stateCurrent[focused.id] = pressed;
+            if(isEndingGame(config.state, config.stateCurrent)){
+                showScores();
+            }
         }
     }
 };
@@ -109,4 +112,33 @@ export const setTile = (focused, event) =>{
         focused.innerHTML = templateGrid();
         focused.children[digit - 1].innerText = digit;
     }
+}
+
+const isEndingGame = (state, current) => {
+    let isEqual = true;
+    
+    for(const field in state){
+        if(state[field] !== current[field]){
+            isEqual = false;
+        }
+    }
+    console.log(isEqual);
+    return isEqual;
+}
+const scoresHtml = (score) =>{ 
+return `
+<div class="bg-scores">
+    <div class="scores">
+        <h3>Your Scores</h3>
+        <p class="single-score">${score}<p>
+    </div>
+</div>
+`
+}
+const showScores = () => {
+    const windowHtml = document.querySelector('.window');
+    const score = 'SCORE';
+    const bgScores = scoresHtml(score);
+    console.log(bgScores)
+    windowHtml.innerHTML += bgScores;
 }
