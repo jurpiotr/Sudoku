@@ -1,8 +1,8 @@
+import helper from './helper';
 class Timeline {
   constructor(timerHtml) {
     this.timerHtml = timerHtml;
     this.init();
-    this.print(this.times);
   }
 
   init() {
@@ -36,15 +36,9 @@ class Timeline {
 
   print() {
     this.timerHtml.innerText = 
-    `${plus0(this.units[0])} : ${plus0(this.units[1])}`;
+    `${helper.set0(this.units[0])} : ${helper.set0(this.units[1])}`;
   }
-}
 
-const plus0 = val => {
-  if (val < 10) {
-    return (val = '0' + val);
-  } else {
-    return val;
-  }
+
 };
 export default Timeline;

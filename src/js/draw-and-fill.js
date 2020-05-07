@@ -48,6 +48,7 @@ export const editContextField = (event) => {
 export const setKey = (boardHtml, event) => {
     const focused = boardHtml.querySelector('.board__cell--focused');
     const pressed = Number(event.key);
+    let finish = false;
     let regKey = /[1-9]/;
     if (event.keyCode === 8 || event.keyCode === 46) {
         focused.innerText = '';
@@ -78,10 +79,11 @@ export const setKey = (boardHtml, event) => {
             focused.innerText = pressed;
             config.stateCurrent[focused.id] = pressed;
             if(isEndingGame(config.state, config.stateCurrent)){
-                showScores();
+                finish = true;
             }
         }
     }
+    return finish;
 };
 
 export const setTile = (focused, event) =>{
@@ -122,23 +124,5 @@ const isEndingGame = (state, current) => {
             isEqual = false;
         }
     }
-    console.log(isEqual);
     return isEqual;
-}
-const scoresHtml = (score) =>{ 
-return `
-<div class="bg-scores">
-    <div class="scores">
-        <h3>Your Scores</h3>
-        <p class="single-score">${score}<p>
-    </div>
-</div>
-`
-}
-const showScores = () => {
-    const windowHtml = document.querySelector('.window');
-    const score = 'SCORE';
-    const bgScores = scoresHtml(score);
-    console.log(bgScores)
-    windowHtml.innerHTML += bgScores;
 }

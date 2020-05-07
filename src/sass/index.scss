@@ -1,6 +1,5 @@
 @import './header';
 $bg: #3a43cc;
-//$bg-window: white;
 $bg-window: #18124d;
 $bg-board: #ffffffcc;
 $bg-focus: #d0ff93;
@@ -66,9 +65,12 @@ $m-board: 3vmin;
    margin: 0;
    padding: 0;
 }
+html{
+   height: 100%;
+}
 body {
-   background: $darken-shadow;
-   min-height: alpha(185);
+   height:100%;
+   background: $lighten-shadow;
    -webkit-user-select: none; /* Chrome all / Safari all */
    -moz-user-select: none; /* Firefox all */
    -ms-user-select: none; /* IE 10+ */
@@ -79,13 +81,12 @@ body {
    height: 10vh;
    width: 100vw;
    background: $bg-window - 60;
-   box-shadow: inset 0 6vmin 12vmin $bg-window;
 }
 .header{
    display: flex;
    justify-content: start;
    align-items: center;
-   box-shadow: inset 0 6vmin 12vmin $bg-window;
+   box-shadow: inset 0 -6vmin 12vmin $bg-window;
 }
 .header__logo {
    background: $lighten-shadow;
@@ -99,7 +100,9 @@ body {
 }
 
 .footer{
-   box-shadow: inset 0 -6vmin 12vmin $bg-window;
+   align-self: flex-end;
+   bottom: 0;
+   box-shadow: inset 0 6vmin 12vmin $bg-window;
 }
 
 .window {
@@ -107,14 +110,16 @@ body {
    flex-wrap: wrap;
    justify-content: center;
    width: auto;
-   height: 100vh;
+   height: auto;
+   overflow: hidden;
    margin: 0 0;
    background: $bg-window;
    box-shadow: inset 0 0 8vmin $bg-window - 60;
 }
 .timer{
    position: absolute;
-   top: 10.5vh;
+   top: 10vh;
+   font-size: 3vmin;
    margin: 0 auto;
    transform: translateX(50%);
    color: $bg-board;
@@ -172,6 +177,7 @@ body {
    justify-content: center;
    align-items: center;
    color: $bg-menu-tile - 100;
+   line-height: 0.88em;
 }
 
 @keyframes anim-repeated {
@@ -236,7 +242,7 @@ body {
 
 @media all and (max-aspect-ratio: 138/100){
    .window{ 
-      height: auto;
+      height: 100%;
    }
    .board {
       min-width: 48vh;
@@ -246,6 +252,10 @@ body {
       margin: 0.1vmin 0.2vmin;
       background-color: #130047;
       border: $border-board solid $darken-shadow;
+   }
+   .header__title{
+      color: $bg-board;
+      font-size: 4vh;
    }
    .menu {
       display: flex;
@@ -281,24 +291,64 @@ body {
       padding: 1vmin;
    }
    .timer {
-      top: 7.5vh;
+      top: 7vh;
       right: 80px;
    }
 }
-
 .bg-scores{
-   display: flex;
+   display: none;
    justify-content: center;
    align-items: center;
    position: absolute;
    top: 0;
    width: 100%;
    height: 100%;
-   background-color: rgba(0, 206, 17, 0.6);
+   background-color: rgba(0, 0, 0, 0.5);
 }
-.final-scores{
+.scores{
    width: 70%;
-   height: 70%;
-   background-color: rgba(0, 124, 10, 0.9);
-   box-shadow: 0 0 16px 20px rgba(0, 124, 10, 0.9);
+   max-width: 700px;
+   min-height: 50%;
+   max-height: 90%;
+   padding: 2% 3%;
+   background-color: $bg-board;
+   box-shadow: 0 0 16px 10px $lighten-shadow;
+   overflow: auto;
+   
+   &__table{
+      min-width: 90%;
+      margin: 5px auto;
+      border-collapse: collapse;
+   }
+
+   &__header{
+      color: $lighten-shadow;
+   }
+   &__row{
+      color: $bg-window;
+      text-align: center;
+      background: linear-gradient(0deg,$lighten-shadow 0%, $bg-board 50%, $lighten-shadow 100%);
+      & > td{
+        padding: 4px;
+        border: 1px solid $lighten-shadow;
+         &:nth-child(1){
+            width: 10%;
+         }
+         &:nth-child(2){
+            width: 20%;
+         }
+         &:nth-child(3){
+            width: 60%;
+         }
+      }
+   }
+   &--current-row{
+      background: linear-gradient(0deg,$c-border-board 0%, $lighten-shadow 50%, $c-border-board 100%);
+      text-shadow: 0 0 3px $darken-shadow;
+      color: $bg-focus;
+   }
+}
+
+.scoresArray{
+   color: blue;
 }
