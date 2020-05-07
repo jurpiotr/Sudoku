@@ -20,7 +20,7 @@ export const init = () => {
         if (event.target.id === 'generate') {
             board.permutation(board.solvedSudoku, 10);
             config.state = board.solvedSudoku;
-            const newBoard = board.eliminate(board.solvedSudoku, 40);
+            const newBoard = board.eliminate(board.solvedSudoku, 1);
             config.stateWithEmpty = newBoard;
             generateNewBoard(newBoard);
             timeline.start();
@@ -29,6 +29,7 @@ export const init = () => {
         if (event.target.id === 'repeat') {
             generateNewBoard(config.stateWithEmpty);
             config.stateCurrent = { ...config.stateWithEmpty };
+            timeline.start();
         }
         if (event.target.id === 'scores') {
             scoreHandling.showScores();
@@ -45,8 +46,13 @@ export const init = () => {
     });
     document.addEventListener('keydown', event => {
         const key = setKey(boardHtml, event);
-        key ? scoreHandling.save(timeline.units[0], timeline.units[1]) : null;
-        contain.children[0].classList.add('scores--current-row');
+        if(key){
+            scoreHandling.save(timeline.units[0], timeline.units[1]);
+            timeline.init();
+            timeline.stop();
+            contain.children[0].classList.add('scores--current-row');
+        }
+        
     });
    
     menuTiles.addEventListener('click', event => {

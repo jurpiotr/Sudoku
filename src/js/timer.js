@@ -1,6 +1,7 @@
 import helper from './helper';
 class Timeline {
   constructor(timerHtml) {
+    this.running = false;
     this.timerHtml = timerHtml;
     this.init();
   }
@@ -10,11 +11,14 @@ class Timeline {
   }
 
   start() {
+    this.init();
+    if (!this.running) this.running = true;
     if (!this.time) this.time = performance.now();
     requestAnimationFrame(this.step.bind(this));
   }
 
   step(timestamp) {
+    if (!this.running) return;
     this.grow(timestamp);
     this.time = timestamp;
     this.print();
@@ -38,7 +42,10 @@ class Timeline {
     this.timerHtml.innerText = 
     `${helper.set0(this.units[0])} : ${helper.set0(this.units[1])}`;
   }
-
+  stop() {
+    this.running = false;
+    this.time = null;
+  }
 
 };
 export default Timeline;
