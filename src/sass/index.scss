@@ -348,7 +348,11 @@ body {
       color: $bg-focus;
    }
 }
-
+.no-results{
+   margin: 20px;
+   text-align: center;
+   font-size: 28px;
+}
 .scoresArray{
    color: blue;
 }

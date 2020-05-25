@@ -19,10 +19,22 @@ class ScoreHandling {
     const bgScores = document.querySelector('.bg-scores');
     const contain = document.querySelector('.scores__contain');
     const scores = JSON.parse(localStorage.getItem('scores'));
-    scores.reverse();
-    const tableRows = scoresHtml(scores);
-    contain.innerHTML += tableRows;
-    bgScores.style.display = 'flex';
+    if(scores !== null){
+      scores.reverse();
+      const tableRows = scoresHtml(scores);
+      contain.innerHTML += tableRows;
+      bgScores.style.display = 'flex';
+    } else {
+      bgScores.style.display = 'flex';
+      const isInfo = document.querySelector('.no-results')
+      console.log(isInfo)
+      if(isInfo == null){
+        const info = document.createElement('p');
+        info.className ='no-results';
+        info.innerText = 'NO RESULTS'
+        bgScores.children[0].appendChild(info);
+      }
+    }
   }
 }
 const scoresHtml = (scores) => {
